@@ -1,8 +1,44 @@
 # Główny plik aplikacji
 # Autor: [Twoje Imię]
 
-# Słownik przechowujący użytkowników (w przyszłości można zastąpić bazą danych)
+import json
+import os
+
+# Ścieżka do pliku z danymi użytkowników
+PLIK_UZYTKOWNICY = os.path.join(os.path.dirname(__file__), '..', 'uzytkownicy.json')
+
+# Słownik przechowujący użytkowników
 uzytkownicy = {}
+
+def wczytaj_uzytkownikow():
+    """Funkcja wczytująca użytkowników z pliku JSON"""
+    global uzytkownicy
+    if os.path.exists(PLIK_UZYTKOWNICY):
+        try:
+            with open(PLIK_UZYTKOWNICY, 'r', encoding='utf-8') as plik:
+                uzytkownicy = json.load(plik)
+            print(f"Wczytano {len(uzytkownicy)} użytkowników z bazy danych.")
+        except (json.JSONDecodeError, IOError) as e:
+            print(f"Błąd podczas wczytywania użytkowników: {e}")
+            uzytkownicy = {}
+    else:
+        print("Brak pliku z użytkownikami. Zostanie utworzony nowy.")
+        uzytkownicy = {}
+
+def zapisz_uzytkownikow():
+    """Funkcja zapisująca użytkowników do pliku JSON"""
+    try:
+        # Upewnij się, że katalog istnieje
+        katalog = os.path.dirname(PLIK_UZYTKOWNICY)
+        if katalog and not os.path.exists(katalog):
+            os.makedirs(katalog)
+        
+        with open(PLIK_UZYTKOWNICY, 'w', encoding='utf-8') as plik:
+            json.dump(uzytkownicy, plik, ensure_ascii=False, indent=2)
+        return True
+    except IOError as e:
+        print(f"Błąd podczas zapisywania użytkowników: {e}")
+        return False
 
 def rejestracja():
     """Funkcja rejestrująca nowego użytkownika"""
@@ -18,7 +54,13 @@ def rejestracja():
         'haslo': haslo,
         'najlepszy_wynik': 0
     }
-    print(f"Użytkownik {nazwa_uzytkownika} został zarejestrowany!")
+    
+    # Zapisanie użytkownika do pliku
+    if zapisz_uzytkownikow():
+        print(f"Użytkownik {nazwa_uzytkownika} został zarejestrowany i zapisany!")
+    else:
+        print(f"Użytkownik {nazwa_uzytkownika} został zarejestrowany, ale wystąpił błąd podczas zapisu.")
+    
     return nazwa_uzytkownika
 
 def logowanie():
@@ -59,6 +101,15 @@ def obsluga_logowania():
         print("Nieprawidłowa opcja!")
         return obsluga_logowania()
 
+def aktualizuj_wynik(uzytkownik, nowy_wynik):
+    """Funkcja aktualizująca najlepszy wynik użytkownika i zapisująca do pliku"""
+    if uzytkownik and uzytkownik in uzytkownicy:
+        if nowy_wynik > uzytkownicy[uzytkownik]['najlepszy_wynik']:
+            uzytkownicy[uzytkownik]['najlepszy_wynik'] = nowy_wynik
+            zapisz_uzytkownikow()
+            return True
+    return False
+
 def wyswietl_menu(uzytkownik=None):
     """Funkcja wyświetlająca główne opcje programu"""
     print("\n--- GRA SNAKE v1.0 ---")
@@ -73,6 +124,7 @@ def wyswietl_menu(uzytkownik=None):
 
 def start_aplikacji():
     print("Uruchamianie modułów...")
+    wczytaj_uzytkownikow()  # Wczytanie użytkowników przy starcie aplikacji
     zalogowany_uzytkownik = obsluga_logowania()
     wyswietl_menu(zalogowany_uzytkownik)
 
