@@ -11,7 +11,7 @@ import sys
 WINDOW_WIDTH = 800
 WINDOW_HEIGHT = 600
 CELL_SIZE = 20
-FPS = 10
+FPS = 60
 
 # Kolory
 BLACK = (0, 0, 0)
@@ -151,7 +151,10 @@ class Game:
         pygame.display.set_caption("Snake Game")
         self.clock = pygame.time.Clock()
         self.font = pygame.font.Font(None, 36)
+        self.fps_font = pygame.font.Font(None, 24)  # Mniejszy font dla FPS
         self.score = 0
+        self.frame_count = 0  # Licznik klatek do kontroli prędkości węża
+        self.move_counter = 0  # Licznik do aktualizacji pozycji węża
         
         # Inicjalizacja węża i jedzenia
         start_x = WINDOW_WIDTH // 2
@@ -198,19 +201,24 @@ class Game:
     def update(self):
         """Aktualizuje stan gry"""
         if not self.game_over:
-            self.snake.move()
-            
-            # Sprawdź kolizje
-            if self.snake.check_collision(WINDOW_WIDTH, WINDOW_HEIGHT):
-                self.game_over = True
-            elif self.snake.check_self_collision():
-                self.game_over = True
-            
-            # Sprawdź czy wąż zjadł jedzenie
-            if self.snake.get_head() == self.food.get_position():
-                self.snake.eat_food()
-                self.score += 10
-                self.food.respawn(self.snake.body)
+            # Aktualizuj pozycję węża co 6 klatek (przy 60 FPS = ~10 ruchów/sekundę)
+            # To zachowuje podobną prędkość jak przy 10 FPS
+            self.move_counter += 1
+            if self.move_counter >= 6:
+                self.snake.move()
+                self.move_counter = 0
+                
+                # Sprawdź kolizje
+                if self.snake.check_collision(WINDOW_WIDTH, WINDOW_HEIGHT):
+                    self.game_over = True
+                elif self.snake.check_self_collision():
+                    self.game_over = True
+                
+                # Sprawdź czy wąż zjadł jedzenie
+                if self.snake.get_head() == self.food.get_position():
+                    self.snake.eat_food()
+                    self.score += 10
+                    self.food.respawn(self.snake.body)
     
     def draw(self):
         """Renderuje grę na ekranie"""
@@ -236,6 +244,13 @@ class Game:
             # Wyświetl wynik
             score_text = self.font.render(f"Wynik: {self.score}", True, WHITE)
             self.screen.blit(score_text, (10, 10))
+            
+            # Wyświetl FPS w prawym górnym rogu
+            fps = int(self.clock.get_fps())
+            fps_text = self.fps_font.render(f"FPS: {fps}", True, WHITE)
+            fps_rect = fps_text.get_rect()
+            fps_rect.topright = (WINDOW_WIDTH - 10, 10)
+            self.screen.blit(fps_text, fps_rect)
         else:
             # Ekran końca gry
             game_over_text = self.font.render("GAME OVER", True, WHITE)
@@ -261,6 +276,7 @@ class Game:
             self.update()
             self.draw()
             self.clock.tick(FPS)
+            self.frame_count += 1
         
         pygame.quit()
         return self.score
