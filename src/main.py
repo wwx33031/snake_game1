@@ -3,6 +3,7 @@
 
 import json
 import os
+from game import start_game
 
 # Ścieżka do pliku z danymi użytkowników
 PLIK_UZYTKOWNICY = os.path.join(os.path.dirname(__file__), '..', 'uzytkownicy.json')
@@ -122,11 +123,63 @@ def wyswietl_menu(uzytkownik=None):
     print("2. Wyświetl najlepsze wyniki")
     print("3. Wyjście")
 
+def wyswietl_najlepsze_wyniki():
+    """Funkcja wyświetlająca najlepsze wyniki wszystkich użytkowników"""
+    print("\n--- NAJLEPSZE WYNIKI ---")
+    if not uzytkownicy:
+        print("Brak zarejestrowanych użytkowników.")
+        return
+    
+    # Sortuj użytkowników według najlepszego wyniku (malejąco)
+    posortowani_uzytkownicy = sorted(
+        uzytkownicy.items(), 
+        key=lambda x: x[1]['najlepszy_wynik'], 
+        reverse=True
+    )
+    
+    for i, (nazwa, dane) in enumerate(posortowani_uzytkownicy, 1):
+        print(f"{i}. {nazwa}: {dane['najlepszy_wynik']} punktów")
+
 def start_aplikacji():
     print("Uruchamianie modułów...")
     wczytaj_uzytkownikow()  # Wczytanie użytkowników przy starcie aplikacji
     zalogowany_uzytkownik = obsluga_logowania()
-    wyswietl_menu(zalogowany_uzytkownik)
+    
+    # Główna pętla menu
+    while True:
+        wyswietl_menu(zalogowany_uzytkownik)
+        wybor = input("\nWybierz opcję (1-3): ")
+        
+        if wybor == "1":
+            # Rozpocznij grę
+            print("\nUruchamianie gry...")
+            print("Sterowanie: Strzałki (↑ ↓ ← →)")
+            print("ESC - wyjście z gry")
+            wynik = start_game()
+            
+            print(f"\nGra zakończona! Twój wynik: {wynik} punktów")
+            
+            # Aktualizuj wynik użytkownika jeśli jest zalogowany
+            if zalogowany_uzytkownik:
+                stary_wynik = uzytkownicy[zalogowany_uzytkownik]['najlepszy_wynik']
+                if aktualizuj_wynik(zalogowany_uzytkownik, wynik):
+                    print(f"Gratulacje! Nowy najlepszy wynik: {wynik} punktów "
+                          f"(poprzedni: {stary_wynik})")
+                else:
+                    print(f"Twój najlepszy wynik pozostaje: {stary_wynik} punktów")
+            
+        elif wybor == "2":
+            # Wyświetl najlepsze wyniki
+            wyswietl_najlepsze_wyniki()
+            input("\nNaciśnij Enter aby kontynuować...")
+        
+        elif wybor == "3":
+            # Wyjście
+            print("Dziękujemy za grę! Do widzenia!")
+            break
+        
+        else:
+            print("Nieprawidłowa opcja! Wybierz 1, 2 lub 3.")
 
 # Punkt startowy programu
 if __name__ == "__main__":

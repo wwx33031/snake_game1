@@ -4,27 +4,55 @@
 
 ## 1. Opis Projektu
 
-Snake Game to implementacja klasycznej gry węża, w której gracz steruje wężem poruszającym się po planszy. Celem gry jest zbieranie jedzenia, które powoduje wydłużenie węża i zwiększenie wyniku. Gra kończy się, gdy wąż zderzy się ze ścianą lub własnym ciałem. Aplikacja umożliwia śledzenie najlepszych wyników i zapewnia rozrywkę użytkownikom.
+Snake Game to implementacja klasycznej gry węża z graficznym interfejsem użytkownika stworzonym w pygame. Gracz steruje wężem poruszającym się po planszy za pomocą strzałek klawiatury. Celem gry jest zbieranie jedzenia, które powoduje wydłużenie węża i zwiększenie wyniku o 10 punktów za każde zjedzone jedzenie. Gra kończy się, gdy wąż zderzy się ze ścianą lub własnym ciałem.
+
+Aplikacja oferuje pełny system zarządzania użytkownikami z możliwością rejestracji i logowania. Najlepsze wyniki każdego użytkownika są automatycznie zapisywane i aktualizowane. Gra umożliwia również wyświetlanie rankingu najlepszych wyników wszystkich graczy.
+
+### Funkcjonalności gry:
+
+- Graficzny interfejs w pygame (okno 800x600 pikseli)
+- Płynne sterowanie wężem za pomocą strzałek
+- Wykrywanie kolizji ze ścianami i własnym ciałem
+- Losowe pojawianie się jedzenia na planszy
+- System punktacji z wyświetlaniem wyniku podczas gry
+- Ekran końca gry z możliwością restartu
+- Integracja z systemem użytkowników i zapisywanie najlepszych wyników
 
 ## 2. Główne Funkcjonalności (MVP)
 
 Lista wymagań, które powinno zawierać MVP:
 
 - [x] Rejestracja i autoryzacja użytkowników
-- [ ] Podstawowa logika biznesowa (sterowanie wężem, kolizje, zbieranie jedzenia)
-- [ ] System punktacji i najlepszych wyników
+- [x] Podstawowa logika biznesowa (sterowanie wężem, kolizje, zbieranie jedzenia)
+- [x] System punktacji i najlepszych wyników
 - [x] Eksport/Import danych (zapisywanie wyników)
 - [x] Inicjalizacja repozytorium i środowiska pracy
 - [x] Lokalne przechowywanie danych użytkowników w formacie JSON
+- [x] Graficzny interfejs użytkownika w pygame
 
 ## 3. Stos Technologiczny
 
-- **Język programowania:** Python
+- **Język programowania:** Python 3.6+
 - **Środowisko:** Visual Studio Code
 - **Biblioteki standardowe:** json, os
-- **Inne:** (np. planowana biblioteka graficzna: pygame)
+- **Biblioteki zewnętrzne:** pygame >= 2.0.0
 
-## 4. Przechowywanie Danych
+## 4. Struktura Projektu
+
+```
+snake_game/
+├── src/
+│   ├── main.py          # Główny plik aplikacji z logiką logowania i menu
+│   └── game.py          # Moduł gry Snake z implementacją w pygame
+├── assets/              # Folder na zasoby graficzne (opcjonalnie)
+├── docs/                # Dokumentacja projektu
+├── tests/               # Testy jednostkowe (opcjonalnie)
+├── uzytkownicy.json     # Plik z danymi użytkowników i wynikami
+├── requirements.txt     # Zależności projektu
+└── README.md            # Ten plik
+```
+
+## 5. Przechowywanie Danych
 
 Aplikacja wykorzystuje lokalne przechowywanie danych użytkowników w pliku `uzytkownicy.json` znajdującym się w głównym katalogu projektu. Plik ten zawiera:
 
@@ -36,48 +64,79 @@ Dane są automatycznie wczytywane przy starcie aplikacji i zapisywane po każdej
 
 **Uwaga:** Plik `uzytkownicy.json` jest obecnie commitowany do repozytorium zgodnie z planowanym działaniem projektu. W przyszłości można rozważyć przeniesienie go do `.gitignore` dla większego bezpieczeństwa.
 
-## 5. Instrukcja Uruchomienia
+## 6. Instrukcja Uruchomienia
 
 ### Wymagania
 
 - Python 3.6 lub nowszy
 - System operacyjny: Windows, macOS lub Linux
+- pygame >= 2.0.0
 
-### Jak uruchomić grę
+### Instalacja zależności
 
 1. **Sklonuj repozytorium** (jeśli jeszcze tego nie zrobiłeś):
+
    ```bash
    git clone <URL_REPOZYTORIUM>
    cd snake_game
    ```
 
-2. **Uruchom aplikację**:
+2. **Zainstaluj wymagane biblioteki**:
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+   Lub na niektórych systemach:
+
+   ```bash
+   pip3 install -r requirements.txt
+   ```
+
+### Jak uruchomić grę
+
+1. **Uruchom aplikację**:
+
    ```bash
    python src/main.py
    ```
-   
+
    Lub na niektórych systemach:
+
    ```bash
    python3 src/main.py
    ```
 
-3. **Po uruchomieniu**:
+2. **Po uruchomieniu**:
    - Zostaniesz poproszony o wybór opcji logowania:
      - **Opcja 1:** Zaloguj się (jeśli masz już konto)
      - **Opcja 2:** Zarejestruj się (aby utworzyć nowe konto)
      - **Opcja 3:** Kontynuuj bez logowania (tryb gościa)
-   - Po zalogowaniu lub wyborze trybu gościa zobaczysz główne menu gry
+   - Po zalogowaniu lub wyborze trybu gościa zobaczysz główne menu gry:
+     - **Opcja 1:** Rozpocznij nową grę
+     - **Opcja 2:** Wyświetl najlepsze wyniki
+     - **Opcja 3:** Wyjście
+
+### Sterowanie w grze
+
+- **Strzałki (↑ ↓ ← →)** - sterowanie kierunkiem węża
+- **ESC** - wyjście z gry
+- **SPACE** - restart gry (po zakończeniu gry)
 
 ### Uruchomienie w Visual Studio Code
 
 1. Otwórz folder projektu w VS Code
 2. Otwórz terminal w VS Code (Ctrl + ` lub Terminal → New Terminal)
-3. Wpisz komendę:
+3. Zainstaluj zależności:
+   ```bash
+   pip install -r requirements.txt
+   ```
+4. Uruchom aplikację:
    ```bash
    python src/main.py
    ```
 
-## 6. Autor
+## 7. Autor
 
 - Imię i Nazwisko
 - [Link do mojego GitHuba](URL)
