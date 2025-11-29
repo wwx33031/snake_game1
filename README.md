@@ -36,7 +36,48 @@ Dane są automatycznie wczytywane przy starcie aplikacji i zapisywane po każdej
 
 **Uwaga:** Plik `uzytkownicy.json` jest obecnie commitowany do repozytorium zgodnie z planowanym działaniem projektu. W przyszłości można rozważyć przeniesienie go do `.gitignore` dla większego bezpieczeństwa.
 
-## 5. Autor
+## 5. Instrukcja Uruchomienia
+
+### Wymagania
+
+- Python 3.6 lub nowszy
+- System operacyjny: Windows, macOS lub Linux
+
+### Jak uruchomić grę
+
+1. **Sklonuj repozytorium** (jeśli jeszcze tego nie zrobiłeś):
+   ```bash
+   git clone <URL_REPOZYTORIUM>
+   cd snake_game
+   ```
+
+2. **Uruchom aplikację**:
+   ```bash
+   python src/main.py
+   ```
+   
+   Lub na niektórych systemach:
+   ```bash
+   python3 src/main.py
+   ```
+
+3. **Po uruchomieniu**:
+   - Zostaniesz poproszony o wybór opcji logowania:
+     - **Opcja 1:** Zaloguj się (jeśli masz już konto)
+     - **Opcja 2:** Zarejestruj się (aby utworzyć nowe konto)
+     - **Opcja 3:** Kontynuuj bez logowania (tryb gościa)
+   - Po zalogowaniu lub wyborze trybu gościa zobaczysz główne menu gry
+
+### Uruchomienie w Visual Studio Code
+
+1. Otwórz folder projektu w VS Code
+2. Otwórz terminal w VS Code (Ctrl + ` lub Terminal → New Terminal)
+3. Wpisz komendę:
+   ```bash
+   python src/main.py
+   ```
+
+## 6. Autor
 
 - Imię i Nazwisko
 - [Link do mojego GitHuba](URL)
