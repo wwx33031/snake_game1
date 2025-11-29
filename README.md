@@ -32,7 +32,7 @@ Lista wymagań, które powinno zawierać MVP:
 
 ## 3. Stos Technologiczny
 
-- **Język programowania:** Python 3.6+
+- **Język programowania:** Python 3.11-3.13 (zalecane Python 3.12)
 - **Środowisko:** Visual Studio Code
 - **Biblioteki standardowe:** json, os
 - **Biblioteki zewnętrzne:** pygame >= 2.0.0
@@ -68,7 +68,8 @@ Dane są automatycznie wczytywane przy starcie aplikacji i zapisywane po każdej
 
 ### Wymagania
 
-- Python 3.6 lub nowszy
+- Python 3.11-3.13 (zalecane Python 3.12)
+  - **Uwaga:** Python 3.14 nie jest obecnie w pełni kompatybilny z pygame 2.6.1
 - System operacyjny: Windows, macOS lub Linux
 - pygame >= 2.0.0
 
@@ -81,7 +82,29 @@ Dane są automatycznie wczytywane przy starcie aplikacji i zapisywane po każdej
    cd snake_game
    ```
 
-2. **Zainstaluj wymagane biblioteki**:
+2. **Utwórz wirtualne środowisko** (zalecane):
+
+   ```bash
+   python3.12 -m venv venv
+   ```
+
+   Lub jeśli masz inną wersję Python 3.11-3.13:
+
+   ```bash
+   python3.11 -m venv venv
+   # lub
+   python3.13 -m venv venv
+   ```
+
+3. **Aktywuj wirtualne środowisko**:
+
+   ```bash
+   source venv/bin/activate  # macOS/Linux
+   # lub
+   venv\Scripts\activate  # Windows
+   ```
+
+4. **Zainstaluj wymagane biblioteki**:
 
    ```bash
    pip install -r requirements.txt
@@ -95,7 +118,15 @@ Dane są automatycznie wczytywane przy starcie aplikacji i zapisywane po każdej
 
 ### Jak uruchomić grę
 
-1. **Uruchom aplikację**:
+1. **Upewnij się, że wirtualne środowisko jest aktywowane**:
+
+   ```bash
+   source venv/bin/activate  # macOS/Linux
+   # lub
+   venv\Scripts\activate  # Windows
+   ```
+
+2. **Uruchom aplikację**:
 
    ```bash
    python src/main.py
@@ -107,7 +138,7 @@ Dane są automatycznie wczytywane przy starcie aplikacji i zapisywane po każdej
    python3 src/main.py
    ```
 
-2. **Po uruchomieniu**:
+3. **Po uruchomieniu**:
    - Zostaniesz poproszony o wybór opcji logowania:
      - **Opcja 1:** Zaloguj się (jeśli masz już konto)
      - **Opcja 2:** Zarejestruj się (aby utworzyć nowe konto)

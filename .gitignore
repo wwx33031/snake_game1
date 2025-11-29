@@ -12,6 +12,11 @@ bin/
 obj/
 node_modules/
 
+# Wirtualne środowisko Python
+venv/
+env/
+ENV/
+
 # Pliki z danymi użytkowników - nie ignorujemy ich, aby byly w repozytorium - planowane dzialanie
 # uzytkownicy.json
 
