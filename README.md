@@ -15,15 +15,15 @@ Lista wymagań, które powinno zawierać MVP:
 - [ ] System punktacji i najlepszych wyników
 - [ ] Eksport/Import danych (zapisywanie wyników)
 - [x] Inicjalizacja repozytorium i środowiska pracy
+- [x] Dodanie testowej linii w markdown
 
 ## 3. Stos Technologiczny
 
-* **Język programowania:** Python
-* **Środowisko:** Visual Studio Code
-* **Inne:** (np. planowana biblioteka graficzna: pygame)
+- **Język programowania:** Python
+- **Środowisko:** Visual Studio Code
+- **Inne:** (np. planowana biblioteka graficzna: pygame)
 
 ## 4. Autor
 
-* Imię i Nazwisko
-* [Link do mojego GitHuba](URL)
-
+- Imię i Nazwisko
+- [Link do mojego GitHuba](URL)
