@@ -1,0 +1,14 @@
+# Pliki systemowe
+.DS_Store
+Thumbs.db
+
+# Konfiguracja lokalna edytora
+.vscode/
+
+# Pliki tymczasowe, logi i pliki binarne
+*.log
+__pycache__/
+bin/
+obj/
+node_modules/
+
