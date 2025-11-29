@@ -1,17 +1,80 @@
 # Główny plik aplikacji
 # Autor: [Twoje Imię]
 
-def wyswietl_menu():
+# Słownik przechowujący użytkowników (w przyszłości można zastąpić bazą danych)
+uzytkownicy = {}
+
+def rejestracja():
+    """Funkcja rejestrująca nowego użytkownika"""
+    print("\n--- REJESTRACJA ---")
+    nazwa_uzytkownika = input("Podaj nazwę użytkownika: ")
+    
+    if nazwa_uzytkownika in uzytkownicy:
+        print("Użytkownik o tej nazwie już istnieje!")
+        return None
+    
+    haslo = input("Podaj hasło: ")
+    uzytkownicy[nazwa_uzytkownika] = {
+        'haslo': haslo,
+        'najlepszy_wynik': 0
+    }
+    print(f"Użytkownik {nazwa_uzytkownika} został zarejestrowany!")
+    return nazwa_uzytkownika
+
+def logowanie():
+    """Funkcja logująca istniejącego użytkownika"""
+    print("\n--- LOGOWANIE ---")
+    nazwa_uzytkownika = input("Podaj nazwę użytkownika: ")
+    
+    if nazwa_uzytkownika not in uzytkownicy:
+        print("Użytkownik nie istnieje! Zarejestruj się najpierw.")
+        return None
+    
+    haslo = input("Podaj hasło: ")
+    
+    if uzytkownicy[nazwa_uzytkownika]['haslo'] == haslo:
+        print(f"Zalogowano jako {nazwa_uzytkownika}!")
+        return nazwa_uzytkownika
+    else:
+        print("Nieprawidłowe hasło!")
+        return None
+
+def obsluga_logowania():
+    """Funkcja obsługująca proces logowania/rejestracji użytkownika"""
+    print("\n=== SYSTEM LOGOWANIA ===")
+    print("1. Zaloguj się")
+    print("2. Zarejestruj się")
+    print("3. Kontynuuj bez logowania")
+    
+    wybor = input("Wybierz opcję (1-3): ")
+    
+    if wybor == "1":
+        return logowanie()
+    elif wybor == "2":
+        return rejestracja()
+    elif wybor == "3":
+        print("Kontynuujesz jako gość.")
+        return None
+    else:
+        print("Nieprawidłowa opcja!")
+        return obsluga_logowania()
+
+def wyswietl_menu(uzytkownik=None):
     """Funkcja wyświetlająca główne opcje programu"""
-    print("--- GRA SNAKE v1.0 ---")
+    print("\n--- GRA SNAKE v1.0 ---")
+    if uzytkownik:
+        print(f"Zalogowany jako: {uzytkownik}")
+        print(f"Twój najlepszy wynik: {uzytkownicy[uzytkownik]['najlepszy_wynik']}")
+    else:
+        print("Tryb gościa")
     print("1. Rozpocznij nową grę")
     print("2. Wyświetl najlepsze wyniki")
     print("3. Wyjście")
 
 def start_aplikacji():
-    # TODO: Dodać obsługę logowania użytkownika
     print("Uruchamianie modułów...")
-    wyswietl_menu()
+    zalogowany_uzytkownik = obsluga_logowania()
+    wyswietl_menu(zalogowany_uzytkownik)
 
 # Punkt startowy programu
 if __name__ == "__main__":
